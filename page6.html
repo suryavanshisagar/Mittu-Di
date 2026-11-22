@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Once Again, Happy Birthday Mittu Di ✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fdf6f0 0%, #f6e2dc 55%, #f3e6cf 100%);
+      color: #3b2d2d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 28px 16px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Soft Floating Hearts & Sparkles */
+    .bg-floats {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .float-item {
+      position: absolute;
+      bottom: -30px;
+      opacity: 0.22;
+      font-size: 18px;
+      animation: floatUpSlow 12s linear infinite;
+    }
+
+    @keyframes floatUpSlow {
+      0% {
+        transform: translateY(0) scale(0.95);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.25;
+      }
+      85% {
+        opacity: 0.25;
+      }
+      100% {
+        transform: translateY(-108vh) scale(1.1);
+        opacity: 0;
+      }
+    }
+
+    .card {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 470px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1.5px solid #edd6cf;
+      border-radius: 26px;
+      padding: 24px 20px 28px;
+      text-align: center;
+      box-shadow: 0 16px 36px rgba(59, 45, 45, 0.09);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: bold;
+      color: #9e5850;
+      background: #fdf0ec;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    /* Small Looping Video Above Message */
+    .top-video-box {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto 18px;
+      padding: 8px;
+      border-radius: 18px;
+      background: #fdf6f3;
+      border: 1px solid #ebd2ca;
+    }
+
+    .top-video-box video {
+      width: 100%;
+      max-height: 210px;
+      border-radius: 12px;
+      background: #000000;
+      display: block;
+    }
+
+    .video-note {
+      margin-top: 6px;
+      font-size: 11.5px;
+      color: #7d6561;
+    }
+
+    h1 {
+      font-size: 25px;
+      line-height: 1.35;
+      color: #3b2d2d;
+      margin-bottom: 12px;
+    }
+
+    .closing-msg {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: #4f3e3e;
+      margin-bottom: 16px;
+      padding: 0 4px;
+    }
+
+    .sign-off {
+      font-size: 13.5px;
+      font-weight: bold;
+      color: #a3574e;
+      margin-bottom: 22px;
+    }
+
+    .restart-btn {
+      padding: 11px 22px;
+      border-radius: 12px;
+      border: 1px solid #e3c7be;
+      background: #fdf6f3;
+      color: #4a3939;
+      font-size: 13.5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .restart-btn:hover {
+      background: #f6e4de;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-floats" id="bgFloats"></div>
+
+  <div class="card">
+    <div class="badge">23rd November ✨ Finale</div>
+
+    <!-- Small Looping Video Right Above Message -->
+    <div class="top-video-box">
+      <video src="sagar2.mp4" autoplay loop muted playsinline controls></video>
+      <div class="video-note">Looping memory • Tap for sound 🎶</div>
+    </div>
+
+    <h1>Once again, Happy Birthday Mittu Di! 🎂✨</h1>
+
+    <p class="closing-msg">
+      Tumhari pyaari awaaz, CA Final ki mehnat, aur hum sabke beech ki wo befikar masti-mazak—ye sab milkar tumhe sabse khaas banata hai. Aise hi muskurati raho, gaati raho, aur apne har sapne ko poora karti raho!
+    </p>
+
+    <div class="sign-off">With lots of love & masti ❤️</div>
+
+    <button class="restart-btn" onclick="backToStart()">↺ Back to Start</button>
+  </div>
+
+  <script>
+    const START_PAGE = "page1.html";
+
+    // Create subtle floating hearts & sparkles
+    const container = document.getElementById("bgFloats");
+    const icons = ["♥", "✨", "♪", "♡"];
+
+    for (let i = 0; i < 14; i++) {
+      const el = document.createElement("span");
+      el.className = "float-item";
+      el.textContent = icons[i % icons.length];
+      el.style.left = (Math.random() * 94 + 3) + "%";
+      el.style.animationDuration = (Math.random() * 7 + 9) + "s";
+      el.style.animationDelay = (Math.random() * 8) + "s";
+      el.style.fontSize = (Math.random() * 8 + 14) + "px";
+      container.appendChild(el);
+    }
+
+    function backToStart() {
+      window.location.href = index.html;
+    }
+  </script>
+</body>
+</html>
