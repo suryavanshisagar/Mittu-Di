@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capture The Moment ✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fdf6f0 0%, #f6e2dc 55%, #f3e6cf 100%);
+      color: #3b2d2d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Full-Screen 1-Second White Flash Overlay */
+    .white-flash {
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    .white-flash.active {
+      animation: cameraFlash 1s ease-out forwards;
+    }
+
+    @keyframes cameraFlash {
+      0% {
+        opacity: 1;
+      }
+      55% {
+        opacity: 0.95;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1.5px solid #edd6cf;
+      border-radius: 26px;
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: 0 14px 34px rgba(59, 45, 45, 0.09);
+      position: relative;
+      z-index: 10;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: bold;
+      color: #9e5850;
+      background: #fdf0ec;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: #3b2d2d;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #6e5a57;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Big Aesthetic Camera Graphic */
+    .camera-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .camera-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 24px;
+      transition: transform 0.2s ease;
+    }
+
+    .camera-btn:hover {
+      transform: scale(1.03);
+    }
+
+    .camera-btn:active {
+      transform: scale(0.97);
+    }
+
+    .camera-body {
+      position: relative;
+      width: 240px;
+      height: 155px;
+      background: #3d3131;
+      border-radius: 26px;
+      border: 4px solid #594848;
+      box-shadow: 0 14px 28px rgba(59, 45, 45, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .camera-top-bump {
+      position: absolute;
+      top: -16px;
+      left: 34px;
+      width: 66px;
+      height: 18px;
+      background: #4d3e3e;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .flash-bulb {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      width: 24px;
+      height: 18px;
+      border-radius: 6px;
+      background: #fff3b0;
+      border: 2px solid #d4b46a;
+      box-shadow: 0 0 8px rgba(255, 243, 176, 0.6);
+      transition: all 0.2s ease;
+    }
+
+    .flash-bulb.blink {
+      background: #ffffff;
+      transform: scale(1.45);
+      box-shadow: 0 0 28px 10px #ffffff;
+    }
+
+    .viewfinder-dot {
+      position: absolute;
+      top: 20px;
+      left: 22px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #e58377;
+    }
+
+    .camera-lens-outer {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: #241c1c;
+      border: 5px solid #c59b5f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.65);
+    }
+
+    .camera-lens-inner {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 32%, #74b9ff, #1e3799 65%, #0c1427 100%);
+      border: 3px solid #4a5568;
+      position: relative;
+    }
+
+    .lens-glare {
+      position: absolute;
+      top: 9px;
+      left: 11px;
+      width: 14px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.75);
+      transform: rotate(-25deg);
+    }
+
+    .tap-label {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #a6574e;
+    }
+
+    /* Video Section After Flash */
+    .video-section {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .video-section.show {
+      display: block;
+    }
+
+    .video-frame {
+      background: #fdf6f3;
+      border: 1.5px solid #ebd2ca;
+      border-radius: 18px;
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+
+    .video-frame video {
+      width: 100%;
+      max-height: 360px;
+      border-radius: 12px;
+      background: #000000;
+      display: block;
+    }
+
+    .sound-tip {
+      margin-top: 8px;
+      font-size: 12.5px;
+      color: #6e5a57;
+      min-height: 18px;
+    }
+
+    .action-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .btn-secondary {
+      padding: 11px 18px;
+      border-radius: 12px;
+      border: 1px solid #e2c5bd;
+      background: #fdf6f3;
+      color: #4a3939;
+      font-size: 13.5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      padding: 11px 22px;
+      border-radius: 12px;
+      border: none;
+      background: #d48379;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: #c26e64;
+    }
+  </style>
+</head>
+<body>
+  <!-- 1-Second White Flash Screen -->
+  <div class="white-flash" id="whiteFlash"></div>
+
+  <div class="card">
+    <div class="badge">Special Memory Camera 📸</div>
+    <h1>Smile for the Camera, Mittu Di! ✨</h1>
+    <p class="subtitle">Bade camera par click karo—flash blink hoga aur ek special video sound ke saath open hoga!</p>
+
+    <div class="camera-stage" id="cameraStage">
+      <button class="camera-btn" id="cameraBtn" onclick="triggerCameraFlash()" aria-label="Click Camera">
+        <div class="camera-body">
+          <div class="camera-top-bump"></div>
+          <div class="viewfinder-dot"></div>
+          <div class="flash-bulb" id="flashBulb"></div>
+          <div class="camera-lens-outer">
+            <div class="camera-lens-inner">
+              <div class="lens-glare"></div>
+            </div>
+          </div>
+        </div>
+      </button>
+      <div class="tap-label">👆 Tap the camera to snap</div>
+    </div>
+
+    <div class="video-section" id="videoSection">
+      <div class="video-frame">
+        <video id="memoryVideo" src="sagar1.mp4" controls playsinline></video>
+        <div class="sound-tip" id="soundTip">Sound ke saath play ho raha hai 🎶</div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn-secondary" onclick="retakeFlash()">📸 Snap Again</button>
+        <button class="btn-primary" onclick="goNext()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const NEXT_PAGE = "page6.html";
+    let isFlashing = false;
+
+    function playShutterSound() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+        const bufferSize = ctx.sampleRate * 0.08;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.02));
+        }
+
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.25, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+
+        noise.connect(gain);
+        gain.connect(ctx.destination);
+        noise.start();
+      } catch (e) {}
+    }
+
+    function triggerCameraFlash() {
+      if (isFlashing) return;
+      isFlashing = true;
+
+      const bulb = document.getElementById("flashBulb");
+      const flashOverlay = document.getElementById("whiteFlash");
+      const cameraStage = document.getElementById("cameraStage");
+      const videoSection = document.getElementById("videoSection");
+      const videoEl = document.getElementById("memoryVideo");
+      const soundTip = document.getElementById("soundTip");
+
+      // Blink flash bulb & play shutter sound
+      bulb.classList.add("blink");
+      playShutterSound();
+
+      setTimeout(() => {
+        bulb.classList.remove("blink");
+      }, 220);
+
+      // Trigger 1-second full-screen white flash
+      flashOverlay.classList.remove("active");
+      void flashOverlay.offsetWidth;
+      flashOverlay.classList.add("active");
+
+      // Reveal video and start playing with sound
+      setTimeout(() => {
+        cameraStage.style.display = "none";
+        videoSection.classList.add("show");
+
+        videoEl.muted = false;
+        videoEl.currentTime = 0;
+        const playPromise = videoEl.play();
+
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              soundTip.textContent = "Playing with sound 🔊✨";
+            })
+            .catch(() => {
+              soundTip.textContent = "Sound ke liye video par tap karke unmute/play kar lo 🔊";
+            });
+        }
+
+        isFlashing = false;
+      }, 950);
+    }
+
+    function retakeFlash() {
+      const videoEl = document.getElementById("memoryVideo");
+      const videoSection = document.getElementById("videoSection");
+      const cameraStage = document.getElementById("cameraStage");
+
+      videoEl.pause();
+      videoSection.classList.remove("show");
+      cameraStage.style.display = "flex";
+    }
+
+    function goNext() {
+      const videoEl = document.getElementById("memoryVideo");
+      videoEl.pause();
+      window.location.href = NEXT_PAGE;
+    }
+  </script>
+</body>
+</html>
