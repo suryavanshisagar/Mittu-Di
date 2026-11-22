@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Make Your Wish ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+      background: linear-gradient(135deg, #fdf6f0 0%, #f6e2dc 55%, #f3e6cf 100%);
+      color: #3b2d2d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Confetti Layer */
+    .confetti-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 30;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      top: -20px;
+      width: 10px;
+      height: 16px;
+      border-radius: 3px;
+      opacity: 0.95;
+      animation: fallConfetti linear forwards;
+    }
+
+    @keyframes fallConfetti {
+      0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(102vh) rotate(720deg);
+        opacity: 0.92;
+      }
+    }
+
+    .stage-card {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 470px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1.5px solid #edd6cf;
+      border-radius: 26px;
+      padding: 26px 20px 28px;
+      text-align: center;
+      box-shadow: 0 16px 38px rgba(59, 45, 45, 0.1);
+    }
+
+    .wish-heading {
+      font-family: 'Pacifico', cursive;
+      font-size: 28px;
+      font-weight: 400;
+      color: #a95349;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .wish-box {
+      background: #fdf6f3;
+      border: 1px solid #ebd2ca;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+
+    .wish-input {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid #dfc1b8;
+      background: #ffffff;
+      font-family: inherit;
+      font-size: 14px;
+      color: #3b2d2d;
+      margin-bottom: 10px;
+      outline: none;
+    }
+
+    .wish-input:focus {
+      border-color: #c9786e;
+    }
+
+    .start-btn {
+      width: 100%;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 12px;
+      background: #d48379;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .start-btn:hover:not(:disabled) {
+      background: #c26e64;
+      transform: translateY(-1px);
+    }
+
+    .start-btn:disabled {
+      opacity: 0.65;
+      cursor: default;
+    }
+
+    .wish-note {
+      display: none;
+      font-size: 13px;
+      color: #6b5450;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .countdown-display {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: 700;
+      color: #b84a3f;
+      margin-bottom: 8px;
+    }
+
+    .countdown-sub {
+      font-size: 13px;
+      color: #7c6561;
+      margin-bottom: 14px;
+      min-height: 18px;
+    }
+
+    /* Big Aesthetic Cake */
+    .cake-wrapper {
+      position: relative;
+      width: 240px;
+      height: 215px;
+      margin: 6px auto 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .candle {
+      position: relative;
+      width: 14px;
+      height: 46px;
+      background: repeating-linear-gradient(
+        45deg,
+        #fff9f5,
+        #fff9f5 6px,
+        #e5988e 6px,
+        #e5988e 12px
+      );
+      border-radius: 6px 6px 2px 2px;
+      z-index: 5;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .flame {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 24px;
+      background: radial-gradient(circle at 50% 70%, #fff3a1 15%, #ff9d2e 58%, #ff5722 100%);
+      border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+      box-shadow: 0 0 14px rgba(255, 165, 45, 0.85);
+      animation: flicker 0.25s infinite alternate;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .flame.blown {
+      opacity: 0;
+      transform: translateX(-50%) scale(0.2);
+      animation: none;
+    }
+
+    @keyframes flicker {
+      0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
+      100% { transform: translateX(-50%) scale(1.08) rotate(2deg); }
+    }
+
+    .smoke {
+      position: absolute;
+      top: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(160, 150, 148, 0.55);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .smoke.puff {
+      animation: smokeRise 1.5s ease-out forwards;
+    }
+
+    @keyframes smokeRise {
+      0% {
+        opacity: 0.7;
+        transform: translate(-50%, 0) scale(0.6);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -45px) scale(2.2);
+      }
+    }
+
+    .cake-top-tier {
+      width: 165px;
+      height: 54px;
+      background: #f7c5b8;
+      border-radius: 16px 16px 8px 8px;
+      position: relative;
+      z-index: 4;
+      border: 2px solid #eab0a0;
+    }
+
+    .icing-drip {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 22px;
+      background: #fff8f5;
+      border-radius: 14px 14px 10px 10px;
+    }
+
+    .cake-bottom-tier {
+      width: 215px;
+      height: 68px;
+      background: #e8998d;
+      border-radius: 14px 14px 12px 12px;
+      position: relative;
+      z-index: 3;
+      margin-top: -4px;
+      border: 2px solid #d78477;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 18px;
+    }
+
+    .sprinkle {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff6d6;
+    }
+
+    .cake-plate {
+      width: 245px;
+      height: 16px;
+      background: #ffffff;
+      border: 2px solid #e5cec7;
+      border-radius: 999px;
+      margin-top: -2px;
+      z-index: 2;
+      box-shadow: 0 6px 14px rgba(59, 45, 45, 0.08);
+    }
+
+    /* Confetti Settled Directly On The Cake ("kachra") */
+    .cake-trash-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .settled-scrap {
+      position: absolute;
+      width: 9px;
+      height: 5px;
+      border-radius: 2px;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .settled-scrap.show {
+      opacity: 1;
+    }
+
+    .bottom-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .mini-btn {
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: 1px solid #e3c8c0;
+      background: #fdf6f3;
+      color: #4f3d3d;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .next-link-btn {
+      padding: 9px 18px;
+      border-radius: 10px;
+      border: none;
+      background: #d48379;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Full Screen Party Confetti Layer -->
+  <div class="confetti-layer" id="confettiLayer"></div>
+
+  <div class="stage-card">
+    <h1 class="wish-heading">Make your wish ✨🎂🕯️</h1>
+
+    <div class="wish-box" id="wishBox">
+      <input
+        type="text"
+        id="wishInput"
+        class="wish-input"
+        placeholder="Apni wish yahan likho Mittu Di..."
+        maxlength="120"
+      />
+      <button class="start-btn" id="startBtn" onclick="startWishAndTimer()">
+        Wish Complete — Start Countdown ✨
+      </button>
+      <div class="wish-note" id="wishNote"></div>
+    </div>
+
+    <div class="countdown-display" id="countdownDisplay"></div>
+    <div class="countdown-sub" id="countdownSub">Wish likhne ke baad countdown shuru hoga</div>
+
+    <div class="cake-wrapper" id="cakeWrapper">
+      <div class="candle">
+        <div class="flame" id="flame"></div>
+        <div class="smoke" id="smoke"></div>
+      </div>
+      <div class="cake-top-tier">
+        <div class="icing-drip"></div>
+      </div>
+      <div class="cake-bottom-tier">
+        <span class="sprinkle"></span>
+        <span class="sprinkle"></span>
+        <span class="sprinkle"></span>
+        <span class="sprinkle"></span>
+      </div>
+      <div class="cake-plate"></div>
+
+      <!-- Party bomb confetti settled on cake -->
+      <div class="cake-trash-layer" id="cakeTrashLayer"></div>
+    </div>
+
+    <div class="bottom-controls">
+      <button class="mini-btn" id="soundBtn" onclick="toggleSound()">🔊 Music: ON</button>
+      <button class="next-link-btn" onclick="goNextPage()">Next →</button>
+    </div>
+  </div>
+
+  <script>
+    const NEXT_PAGE = "page5.html";
+    let timerStarted = false;
+    let soundEnabled = true;
+    let musicLoopTimer = null;
+    let audioCtx = null;
+
+    // Happy Birthday melody notes (freq in Hz, duration in beats)
+    const HB_MELODY = [
+      [261.63, 0.75], [261.63, 0.25], [293.66, 1], [261.63, 1], [349.23, 1], [329.63, 2],
+      [261.63, 0.75], [261.63, 0.25], [293.66, 1], [261.63, 1], [392.00, 1], [349.23, 2],
+      [261.63, 0.75], [261.63, 0.25], [523.25, 1], [440.00, 1], [349.23, 1], [329.63, 1], [293.66, 2],
+      [466.16, 0.75], [466.16, 0.25], [440.00, 1], [349.23, 1], [392.00, 1], [349.23, 2.5]
+    ];
+
+    function playHappyBirthdayTune() {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume();
+        }
+
+        const beatSec = 0.42;
+        let currentTime = audioCtx.currentTime + 0.05;
+
+        HB_MELODY.forEach(([freq, beats]) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(freq, currentTime);
+
+          gain.gain.setValueAtTime(0.001, currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.14, currentTime + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.001, currentTime + beats * beatSec - 0.02);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start(currentTime);
+          osc.stop(currentTime + beats * beatSec);
+          currentTime += beats * beatSec;
+        });
+
+        const totalMs = currentTime * 1000 - (audioCtx.currentTime * 1000) + 600;
+        clearTimeout(musicLoopTimer);
+        musicLoopTimer = setTimeout(() => {
+          if (soundEnabled) playHappyBirthdayTune();
+        }, totalMs);
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const btn = document.getElementById("soundBtn");
+      if (soundEnabled) {
+        btn.textContent = "🔊 Music: ON";
+        if (timerStarted) playHappyBirthdayTune();
+      } else {
+        btn.textContent = "🔇 Music: OFF";
+        clearTimeout(musicLoopTimer);
+      }
+    }
+
+    function startWishAndTimer() {
+      if (timerStarted) return;
+
+      const inputEl = document.getElementById("wishInput");
+      const wishText = inputEl.value.trim();
+
+      if (!wishText) {
+        alert("Pehle apni wish toh likh do Mittu Di! ✨");
+        inputEl.focus();
+        return;
+      }
+
+      timerStarted = true;
+      inputEl.disabled = true;
+      document.getElementById("startBtn").disabled = true;
+
+      const wishNote = document.getElementById("wishNote");
+      wishNote.style.display = "block";
+      wishNote.textContent = `Wish locked: "${wishText}" ✨`;
+
+      // Start Happy Birthday song
+      playHappyBirthdayTune();
+
+      // Start 5 4 3 2 1 countdown
+      let count = 5;
+      const displayEl = document.getElementById("countdownDisplay");
+      const subEl = document.getElementById("countdownSub");
+      subEl.textContent = "Aankhein band karke wish maango...";
+      displayEl.textContent = count;
+
+      const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          displayEl.textContent = count;
+        } else {
+          clearInterval(interval);
+          displayEl.textContent = "🎉";
+          subEl.textContent = "Candle bujh gayi! Party bomb blast! 🎊";
+          blowCandleAndBlast();
+        }
+      }, 1000);
+    }
+
+    function blowCandleAndBlast() {
+      const flame = document.getElementById("flame");
+      const smoke = document.getElementById("smoke");
+
+      // Blow out candle + smoke
+      flame.classList.add("blown");
+      smoke.classList.add("puff");
+
+      // Party bomb confetti burst + settle on cake
+      launchPartyBomb();
+      settleConfettiOnCake();
+
+      // Automatically move to next page after celebration
+      setTimeout(() => {
+        goNextPage();
+      }, 4200);
+    }
+
+    function launchPartyBomb() {
+      const layer = document.getElementById("confettiLayer");
+      const colors = ["#ff6b6b", "#ffd166", "#06d6a0", "#4cc9f0", "#f72585", "#ffb703"];
+
+      for (let i = 0; i < 95; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.backgroundColor = colors[i % colors.length];
+        piece.style.width = (Math.random() * 8 + 7) + "px";
+        piece.style.height = (Math.random() * 10 + 10) + "px";
+        piece.style.animationDuration = (Math.random() * 1.8 + 1.8) + "s";
+        piece.style.animationDelay = (Math.random() * 0.45) + "s";
+        layer.appendChild(piece);
+      }
+    }
+
+    function settleConfettiOnCake() {
+      const trashLayer = document.getElementById("cakeTrashLayer");
+      const colors = ["#ff6b6b", "#ffd166", "#06d6a0", "#4cc9f0", "#f72585", "#9b5de5"];
+
+      // Spots across top icing, bottom tier, and plate
+      const spots = [
+        [32, 34], [48, 36], [62, 33], [54, 42], [68, 40],
+        [24, 56], [40, 58], [58, 56], [74, 58], [46, 65],
+        [18, 76], [34, 78], [52, 75], [68, 79], [82, 76],
+        [28, 86], [48, 88], [64, 86], [76, 89], [40, 91]
+      ];
+
+      spots.forEach(([leftPct, topPct], idx) => {
+        const scrap = document.createElement("div");
+        scrap.className = "settled-scrap";
+        scrap.style.left = leftPct + "%";
+        scrap.style.top = topPct + "%";
+        scrap.style.backgroundColor = colors[idx % colors.length];
+        scrap.style.transform = `rotate(${(idx * 37) % 360}deg)`;
+        trashLayer.appendChild(scrap);
+
+        setTimeout(() => {
+          scrap.classList.add("show");
+        }, 350 + idx * 45);
+      });
+    }
+
+    function goNextPage() {
+      clearTimeout(musicLoopTimer);
+      window.location.href = NEXT_PAGE;
+    }
+  </script>
+</body>
+</html>
