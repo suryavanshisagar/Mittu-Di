@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Mittu ✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #fdf6f0, #f6e2dc);
+      color: #3b2d2d;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 360px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #6e5d5d;
+      margin-bottom: 18px;
+    }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid #c97b72;
+      background: transparent;
+    }
+
+    .dot.active {
+      background: #c97b72;
+    }
+
+    .msg {
+      min-height: 36px;
+      font-size: 13px;
+      color: #b83b3b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+
+    .msg.ok {
+      color: #2e7d32;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 240px;
+      margin: 0 auto 18px;
+    }
+
+    button.key {
+      height: 56px;
+      border-radius: 12px;
+      border: 1px solid #ead5cf;
+      background: #fff9f7;
+      font-size: 20px;
+      font-weight: bold;
+      color: #3b2d2d;
+      cursor: pointer;
+    }
+
+    button.key:hover {
+      background: #f6e2dc;
+    }
+
+    button.small-key {
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .hint-btn {
+      background: none;
+      border: none;
+      color: #8c6d67;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .hint-box {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      background: #fdf3ef;
+      font-size: 13px;
+      color: #4a3939;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>For Mittu ✨</h1>
+    <p>Enter 6-digit passcode to open</p>
+
+    <div class="dots" id="dots">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div class="msg" id="msg"></div>
+
+    <div class="keypad">
+      <button class="key" onclick="addDigit('1')">1</button>
+      <button class="key" onclick="addDigit('2')">2</button>
+      <button class="key" onclick="addDigit('3')">3</button>
+      <button class="key" onclick="addDigit('4')">4</button>
+      <button class="key" onclick="addDigit('5')">5</button>
+      <button class="key" onclick="addDigit('6')">6</button>
+      <button class="key" onclick="addDigit('7')">7</button>
+      <button class="key" onclick="addDigit('8')">8</button>
+      <button class="key" onclick="addDigit('9')">9</button>
+      <button class="key small-key" onclick="clearCode()">Clear</button>
+      <button class="key" onclick="addDigit('0')">0</button>
+      <button class="key small-key" onclick="delDigit()">Del</button>
+    </div>
+
+    <button class="hint-btn" onclick="toggleHint()">Need a hint?</button>
+    <div class="hint-box" id="hintBox">
+      The day a legend was born (DDMMYY) ✨
+    </div>
+  </div>
+
+  <script>
+    const PASSCODE = "231105";
+    const NEXT_PAGE = "page2.html";
+    let code = "";
+    let tries = 0;
+
+    const funnyErrors = [
+      "Arre CA sahiba, itna easy calculation galat? Try again! 😜",
+      "Balance sheet match nahi hui! Ek baar aur try karo Mittu 😅",
+      "Wrong code! Neeche hint dekh lo thoda ✨"
+    ];
+
+    function updateDots() {
+      const dots = document.querySelectorAll(".dot");
+      dots.forEach((dot, i) => {
+        if (i < code.length) {
+          dot.classList.add("active");
+        } else {
+          dot.classList.remove("active");
+        }
+      });
+    }
+
+    function addDigit(num) {
+      if (code.length >= 6) return;
+      document.getElementById("msg").textContent = "";
+      document.getElementById("msg").className = "msg";
+      code += num;
+      updateDots();
+
+      if (code.length === 6) {
+        checkCode();
+      }
+    }
+
+    function delDigit() {
+      code = code.slice(0, -1);
+      updateDots();
+    }
+
+    function clearCode() {
+      code = "";
+      document.getElementById("msg").textContent = "";
+      updateDots();
+    }
+
+    function checkCode() {
+      const msgEl = document.getElementById("msg");
+      if (code === PASSCODE) {
+        msgEl.className = "msg ok";
+        msgEl.textContent = "Unlocked! Opening next page... ✨";
+        setTimeout(() => {
+          window.location.href = NEXT_PAGE;
+        }, 700);
+      } else {
+        msgEl.className = "msg";
+        msgEl.textContent = funnyErrors[tries % funnyErrors.length];
+        tries++;
+        setTimeout(() => {
+          code = "";
+          updateDots();
+        }, 500);
+      }
+    }
+
+    function toggleHint() {
+      const box = document.getElementById("hintBox");
+      box.style.display = box.style.display === "block" ? "none" : "block";
+    }
+  </script>
+</body>
+</html>
