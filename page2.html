@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Special Question ✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #fdf6f0, #f6e2dc);
+      color: #3b2d2d;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 32px 22px;
+      text-align: center;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: bold;
+      color: #9e5850;
+      background: #fdf0ec;
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 22px;
+      line-height: 1.4;
+      margin-bottom: 24px;
+      color: #3b2d2d;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    #yesBtn {
+      background: #d48379;
+      color: #ffffff;
+      padding: 13px 28px;
+      font-size: 16px;
+    }
+
+    #yesBtn:hover {
+      background: #c26e64;
+    }
+
+    #noBtn {
+      background: #f3e6e2;
+      color: #5c4747;
+      padding: 13px 24px;
+      font-size: 16px;
+      border: 1px solid #e3cbc4;
+    }
+
+    #noBtn:hover {
+      background: #ebd8d2;
+    }
+
+    .request-msg {
+      min-height: 24px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #b5483e;
+      margin-top: 8px;
+      margin-bottom: 14px;
+    }
+
+    .video-popup {
+      display: none;
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: #fdf6f3;
+      border: 1px solid #edd7d0;
+    }
+
+    .video-popup.show {
+      display: block;
+    }
+
+    .video-popup video {
+      width: 100%;
+      max-height: 300px;
+      border-radius: 12px;
+      background: #000000;
+      display: block;
+    }
+
+    .video-caption {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #78605c;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">For Mittu Di ✨</div>
+    <h1>I made something special for you. Do you wanna see it?</h1>
+
+    <div class="btn-row">
+      <button id="yesBtn" onclick="goNext()">Yes</button>
+      <button id="noBtn" onclick="handleNo()">No</button>
+    </div>
+
+    <div class="request-msg" id="requestMsg"></div>
+
+    <div class="video-popup" id="videoBox">
+      <video id="noVideo" src="sagar.mp4" autoplay loop muted playsinline controls></video>
+      <div class="video-caption">Dekhna hi padega Mittu Di! Tap video for sound 🎶</div>
+    </div>
+  </div>
+
+  <script>
+    const NEXT_PAGE = "page3.html";
+    let noCount = 0;
+    let yesScale = 1;
+
+    const requests = [
+      "Arre aise kaise No? Thoda sa toh dekhna hi padega! 🥺",
+      "CA final ki kasam, itni mehnat se banaya hai—Yes daba do! 😅",
+      "No option kaam nahi karega aaj, dekhna toh padega hi! 😜",
+      "Ek baar click karke dekho, acha lagega pakka! ✨"
+    ];
+
+    function handleNo() {
+      const msgEl = document.getElementById("requestMsg");
+      const videoBox = document.getElementById("videoBox");
+      const videoEl = document.getElementById("noVideo");
+      const yesBtn = document.getElementById("yesBtn");
+
+      msgEl.textContent = requests[noCount % requests.length];
+      noCount++;
+
+      // Grow Yes button gently on each No click
+      yesScale = Math.min(yesScale + 0.14, 1.85);
+      yesBtn.style.transform = `scale(${yesScale})`;
+
+      // Show and ensure looping video plays
+      videoBox.classList.add("show");
+      videoEl.loop = true;
+      videoEl.play().catch(() => {});
+    }
+
+    function goNext() {
+      window.location.href = NEXT_PAGE;
+    }
+  </script>
+</body>
+</html>
