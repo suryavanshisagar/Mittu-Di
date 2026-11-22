@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Make Your Wish ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+      background: linear-gradient(135deg, #fdf6f0 0%, #f6e2dc 55%, #f3e6cf 100%);
+      color: #3b2d2d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px 40px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .top-heading {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(28px, 6vw, 42px);
+      font-weight: 400;
+      color: #8f4842;
+      text-align: center;
+      margin-bottom: 10px;
+      text-shadow: 0 3px 12px rgba(255, 255, 255, 0.8);
+      z-index: 5;
+    }
+
+    .countdown-box {
+      font-size: 46px;
+      font-weight: 700;
+      color: #c96458;
+      min-height: 60px;
+      line-height: 60px;
+      text-align: center;
+      margin-bottom: 8px;
+      z-index: 5;
+    }
+
+    .status-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #6e5855;
+      margin-bottom: 14px;
+      min-height: 22px;
+      text-align: center;
+      z-index: 5;
+    }
+
+    .wish-input-wrap {
+      width: 100%;
+      max-width: 320px;
+      margin-bottom: 18px;
+      z-index: 5;
+    }
+
+    .wish-input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1.5px solid #e4c6be;
+      background: rgba(255, 255, 255, 0.88);
+      font-family: inherit;
+      font-size: 13px;
+      color: #3b2d2d;
+      text-align: center;
+      outline: none;
+    }
+
+    .wish-input:focus {
+      border-color: #c96458;
+    }
+
+    /* Big Aesthetic Cake Stage */
+    .cake-stage {
+      position: relative;
+      width: 280px;
+      height: 270px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      margin: 6px auto 22px;
+      z-index: 4;
+    }
+
+    .candle-area {
+      position: relative;
+      width: 20px;
+      height: 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      z-index: 6;
+    }
+
+    .flame {
+      width: 18px;
+      height: 28px;
+      background: radial-gradient(circle at 50% 70%, #fff7b2 15%, #ffae34 55%, #ff5a36 100%);
+      border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+      box-shadow: 0 0 18px rgba(255, 174, 52, 0.9);
+      transform-origin: bottom center;
+      animation: flicker 0.25s infinite alternate ease-in-out;
+      margin-bottom: 2px;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .flame.blown {
+      opacity: 0;
+      transform: scale(0.1);
+      animation: none;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(0.95) rotate(-2deg); }
+      100% { transform: scale(1.06) rotate(2deg); }
+    }
+
+    .smoke {
+      position: absolute;
+      top: -12px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(160, 150, 148, 0.55);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .smoke.puff {
+      animation: smokeRise 1.4s ease-out forwards;
+    }
+
+    @keyframes smokeRise {
+      0% { opacity: 0.7; transform: translateY(0) scale(0.6); }
+      100% { opacity: 0; transform: translateY(-48px) translateX(10px) scale(2.2); }
+    }
+
+    .candle-stick {
+      width: 14px;
+      height: 44px;
+      border-radius: 5px;
+      background: repeating-linear-gradient(
+        45deg,
+        #fff9f5,
+        #fff9f5 5px,
+        #e07a6d 5px,
+        #e07a6d 10px
+      );
+      border: 1px solid #d2685b;
+    }
+
+    .cake-top {
+      width: 190px;
+      height: 56px;
+      background: #fff4ee;
+      border: 2px solid #ecd0c7;
+      border-radius: 20px 20px 10px 10px;
+      position: relative;
+      z-index: 4;
+      box-shadow: inset 0 -6px 0 rgba(212, 131, 121, 0.18);
+    }
+
+    .frosting-drip {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 22px;
+      background: #e38b80;
+      border-radius: 18px 18px 12px 12px;
+    }
+
+    .cake-bottom {
+      width: 236px;
+      height: 76px;
+      margin-top: -4px;
+      background: #f5d2c8;
+      border: 2px solid #e3b8ac;
+      border-radius: 14px 14px 18px 18px;
+      position: relative;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 22px;
+    }
+
+    .sprinkle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffffff;
+      opacity: 0.85;
+    }
+
+    .cake-plate {
+      width: 268px;
+      height: 16px;
+      background: #ffffff;
+      border: 1.5px solid #e2ccc6;
+      border-radius: 999px;
+      margin-top: 4px;
+      box-shadow: 0 8px 18px rgba(59, 45, 45, 0.08);
+      z-index: 2;
+    }
+
+    /* Party Bomb Confetti Settling On Cake & Screen */
+    .confetti-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .cake-confetti-layer {
+      position: absolute;
+      inset: 40px 10px 10px 10px;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 8;
+    }
+
+    .piece {
+      position: absolute;
+      top: -16px;
+      width: 10px;
+      height: 14px;
+      border-radius: 2px;
+      animation: fallDown linear forwards;
+    }
+
+    .settled-piece {
+      position: absolute;
+      width: 9px;
+      height: 6px;
+      border-radius: 2px;
+      opacity: 0.92;
+    }
+
+    @keyframes fallDown {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(105vh) rotate(540deg);
+        opacity: 0.9;
+      }
+    }
+
+    .controls-footer {
+      z-index: 12;
+      text-align: center;
+    }
+
+    .next-btn {
+      background: #d48379;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 11px 24px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(212, 131, 121, 0.28);
+    }
+
+    .next-btn:hover {
+      background: #c26e64;
+    }
+  </style>
+</head>
+<body>
+  <div class="confetti-layer" id="screenConfetti"></div>
+
+  <h1 class="top-heading">Make your wish ✨🎂🕯️</h1>
+  <div class="countdown-box" id="countdownNum">5</div>
+  <div class="status-text" id="statusText">Close your eyes and make a wish, Mittu Di...</div>
+
+  <div class="wish-input-wrap" id="wishWrap">
+    <input
+      type="text"
+      class="wish-input"
+      id="wishInput"
+      placeholder="Write a secret wish (optional)..."
+      maxlength="80"
+    />
+  </div>
+
+  <div class="cake-stage" id="cakeStage">
+    <div class="cake-confetti-layer" id="cakeConfetti"></div>
+
+    <div class="candle-area">
+      <div class="smoke" id="smokePuff"></div>
+      <div class="flame" id="flame"></div>
+      <div class="candle-stick"></div>
+    </div>
+
+    <div class="cake-top">
+      <div class="frosting-drip"></div>
+    </div>
+
+    <div class="cake-bottom">
+      <span class="sprinkle"></span>
+      <span class="sprinkle"></span>
+      <span class="sprinkle"></span>
+      <span class="sprinkle"></span>
+    </div>
+
+    <div class="cake-plate"></div>
+  </div>
+
+  <div class="controls-footer">
+    <button class="next-btn" onclick="goNextPage()">Next →</button>
+  </div>
+
+  <script>
+    const NEXT_PAGE = "page5.html";
+    let count = 5;
+
+    const countdownEl = document.getElementById("countdownNum");
+    const statusEl = document.getElementById("statusText");
+    const flameEl = document.getElementById("flame");
+    const smokeEl = document.getElementById("smokePuff");
+    const wishWrapEl = document.getElementById("wishWrap");
+    const screenConfettiEl = document.getElementById("screenConfetti");
+    const cakeConfettiEl = document.getElementById("cakeConfetti");
+
+    const colors = ["#ff6b6b", "#ffd166", "#4ecdc4", "#ff9f1c", "#b56576", "#6a4c93"];
+
+    function spawnScreenConfetti() {
+      for (let i = 0; i < 95; i++) {
+        const piece = document.createElement("div");
+        piece.className = "piece";
+        piece.style.left = Math.random() * 100 + "%";
+        piece.style.backgroundColor = colors[i % colors.length];
+        piece.style.width = (Math.random() * 7 + 6) + "px";
+        piece.style.height = (Math.random() * 9 + 7) + "px";
+        piece.style.animationDuration = (Math.random() * 1.8 + 2.2) + "s";
+        piece.style.animationDelay = (Math.random() * 0.6) + "s";
+        screenConfettiEl.appendChild(piece);
+      }
+    }
+
+    function settleConfettiOnCake() {
+      for (let i = 0; i < 38; i++) {
+        const settled = document.createElement("div");
+        settled.className = "settled-piece";
+        settled.style.backgroundColor = colors[i % colors.length];
+        settled.style.left = (Math.random() * 82 + 9) + "%";
+        // Concentrate pieces across cake top, frosting, and bottom tier
+        settled.style.top = (Math.random() * 58 + 34) + "%";
+        settled.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
+        cakeConfettiEl.appendChild(settled);
+      }
+    }
+
+    function triggerPartyBlast() {
+      flameEl.classList.add("blown");
+      smokeEl.classList.add("puff");
+      wishWrapEl.style.display = "none";
+
+      countdownEl.textContent = "🎉";
+      statusEl.textContent = "Wish locked! Party bomb blast for Mittu Di!";
+
+      spawnScreenConfetti();
+      setTimeout(settleConfettiOnCake, 550);
+
+      // Automatically move to next page after celebration & settling confetti
+      setTimeout(() => {
+        goNextPage();
+      }, 3600);
+    }
+
+    function goNextPage() {
+      window.location.href = NEXT_PAGE;
+    }
+
+    const timer = setInterval(() => {
+      count--;
+      if (count > 0) {
+        countdownEl.textContent = count;
+      } else {
+        clearInterval(timer);
+        countdownEl.textContent = "0";
+        triggerPartyBlast();
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
