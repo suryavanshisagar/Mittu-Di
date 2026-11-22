@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Mittu Di ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-cream: #FAF6F0;
+      --bg-card: #FFFDF9;
+      --accent-rose: #D98A7C;
+      --accent-gold: #C69C6D;
+      --accent-sage: #8A9A86;
+      --text-dark: #2C221E;
+      --text-muted: #6E5D56;
+      --border-soft: #EAE0D5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .serif {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Subtle floating music notes & sparkles */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .float-item {
+      position: absolute;
+      color: var(--accent-gold);
+      opacity: 0.25;
+      animation: floatUp 14s infinite linear;
+      font-size: 1.4rem;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+      20% { opacity: 0.3; }
+      80% { opacity: 0.3; }
+      100% { transform: translateY(-10vh) rotate(25deg); opacity: 0; }
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero Section */
+    header {
+      min-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .date-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 99px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent-rose);
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 7vw, 5.2rem);
+      font-weight: 600;
+      line-height: 1.08;
+      margin-bottom: 16px;
+      color: var(--text-dark);
+    }
+
+    h1 span {
+      font-style: italic;
+      color: var(--accent-rose);
+    }
+
+    .subtitle {
+      max-width: 580px;
+      font-size: 1.08rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 13px 28px;
+      border-radius: 99px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--text-dark);
+      color: #FFFDF9;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-rose);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-dark);
+      border: 1px solid var(--border-soft);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-gold);
+      transform: translateY(-2px);
+    }
+
+    /* Section Styling */
+    section {
+      padding: 80px 0;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-gold);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: clamp(2.1rem, 4vw, 3rem);
+      font-weight: 600;
+    }
+
+    /* Interactive Card Deck: Reasons Why */
+    .deck-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .reason-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: 24px;
+      padding: 44px 36px;
+      max-width: 540px;
+      width: 100%;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      box-shadow: 0 14px 35px rgba(44, 34, 30, 0.04);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .card-number {
+      font-size: 0.85rem;
+      color: var(--accent-rose);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .card-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      line-height: 1.35;
+      margin: 20px 0;
+    }
+
+    .card-sub {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    .deck-controls {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Timeline Section */
+    .timeline {
+      position: relative;
+      max-width: 680px;
+      margin: 0 auto;
+      padding-left: 28px;
+      border-left: 2px solid var(--border-soft);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 36px;
+      background: var(--bg-card);
+      padding: 24px 28px;
+      border-radius: 18px;
+      border: 1px solid var(--border-soft);
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -36px;
+      top: 28px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent-rose);
+      border: 3px solid var(--bg-cream);
+    }
+
+    .timeline-badge {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .timeline-item h3 {
+      font-size: 1.55rem;
+      margin: 4px 0 8px;
+    }
+
+    .timeline-item p {
+      color: var(--text-muted);
+      font-size: 0.96rem;
+    }
+
+    /* Photo Gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .photo-frame {
+      background: var(--bg-card);
+      padding: 14px 14px 22px;
+      border-radius: 18px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 8px 24px rgba(44, 34, 30, 0.03);
+      transition: transform 0.25s ease;
+    }
+
+    .photo-frame:hover {
+      transform: translateY(-4px);
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #F3E7DC, #EBD8CA);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    .photo-placeholder span {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .photo-caption {
+      margin-top: 14px;
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--text-dark);
+    }
+
+    /* Personal Letter */
+    .letter-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: 26px;
+      padding: clamp(28px, 5vw, 54px);
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+      box-shadow: 0 16px 40px rgba(44, 34, 30, 0.04);
+    }
+
+    .letter-box p {
+      margin-bottom: 18px;
+      font-size: 1.03rem;
+      color: var(--text-dark);
+    }
+
+    .letter-sign {
+      margin-top: 28px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.65rem;
+      font-style: italic;
+      color: var(--accent-rose);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 20px 60px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    /* Confetti Canvas */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Floating Ambient Notes -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="float-item" style="left: 10%; animation-delay: 0s;">♪</div>
+    <div class="float-item" style="left: 28%; animation-delay: 4s;">✦</div>
+    <div class="float-item" style="left: 52%; animation-delay: 2s;">♫</div>
+    <div class="float-item" style="left: 74%; animation-delay: 6s;">✦</div>
+    <div class="float-item" style="left: 88%; animation-delay: 1s;">♪</div>
+  </div>
+
+  <!-- Hero Section -->
+  <header class="container">
+    <div class="date-pill">23 November • Birthday Edition</div>
+    <h1>Happy Birthday, <span>Mittu Di</span></h1>
+    <p class="subtitle">
+      To the only sibling who refuses to take life too seriously, our in-house melody queen, and our soon-to-be Chartered Accountant. Today is all about celebrating Minal.
+    </p>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="launchCelebration()">Tap for Birthday Magic ✨</button>
+      <a href="#letter" class="btn btn-secondary">Read Your Letter</a>
+    </div>
+  </header>
+
+  <!-- Section 1: Interactive Card Deck -->
+  <section id="reasons">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Interactive Deck</span>
+        <h2>Why You’re Everyone’s Favorite Sister</h2>
+      </div>
+
+      <div class="deck-wrapper">
+        <div class="reason-card" id="reasonCard">
+          <div class="card-number" id="cardCount">01 / 05</div>
+          <div class="card-text" id="cardTitle">The Anti-Stress Sibling</div>
+          <p class="card-sub" id="cardDesc">
+            While the rest of us get all serious, you’re the one cracking jokes and keeping the whole house light and happy.
+          </p>
+        </div>
+
+        <div class="deck-controls">
+          <button class="btn btn-secondary" onclick="prevCard()">← Previous</button>
+          <button class="btn btn-primary" onclick="nextCard()">Next Reason →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Memory & Milestone Timeline -->
+  <section id="timeline">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">The Mittu Story</span>
+        <h2>Chapters & Milestones</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="timeline-badge">Chapter 01 • The Vibe Setter</span>
+          <h3>Chief Comedy Officer of the Siblings</h3>
+          <p>
+            From random roast sessions to turning serious moments into laughter, you’ve always been the fun energy our sibling squad runs on.
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <span class="timeline-badge">Chapter 02 • The Voice</span>
+          <h3>Our Personal Concert Playlist</h3>
+          <p>
+            Whether you’re humming casually or singing full-fledged songs, your voice effortlessly makes every ordinary evening feel special.
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <span class="timeline-badge">Chapter 03 • Current Grind</span>
+          <h3>CA Final Boss Mode</h3>
+          <p>
+            Balancing thick books, late-night revisions, and still keeping that bright smile—your hard work right now is inspiring all of us.
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <span class="timeline-badge">Chapter 04 • Coming Very Soon</span>
+          <h3>CA Minal — Prefix Loading...</h3>
+          <p>
+            Once these final exams are done, we’re celebrating twice as hard. Your biggest milestone is right around the corner!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Photo Gallery -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Snapshots</span>
+        <h2>Moments Worth Framing</h2>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="photo-frame">
+          <div class="photo-placeholder">
+            <span>📸</span>
+            Add Mittu Di's best candid smile photo here
+          </div>
+          <div class="photo-caption">Forever the funniest in the room</div>
+        </div>
+
+        <div class="photo-frame">
+          <div class="photo-placeholder">
+            <span>🎶</span>
+            Add a favorite sibling memory photo here
+          </div>
+          <div class="photo-caption">Good vibes & great music</div>
+        </div>
+
+        <div class="photo-frame">
+          <div class="photo-placeholder">
+            <span>✨</span>
+            Add a festive or celebration photo here
+          </div>
+          <div class="photo-caption">Future CA in the making</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Personal Letter -->
+  <section id="letter">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">From The Heart</span>
+        <h2>A Little Note For You, Di</h2>
+      </div>
+
+      <div class="letter-box">
+        <p>Dear Mittu Di,</p>
+        <p>
+          Happy 23rd November! Even if we don't track the exact birth year, one thing is always certain—every year with you around is way more fun, musical, and full of laughter.
+        </p>
+        <p>
+          Out of all of us siblings, you’re the only one who knows how to keep things light and never let life get overly serious. Your masti, your warmth, and your soulful singing make our home feel complete.
+        </p>
+        <p>
+          I know your <strong>CA Final exams</strong> are right around the corner and you’re putting in so much effort right now. Just remember to take a deep breath today, enjoy your birthday guilt-free, and trust yourself. You’re going to ace those exams and make all of us proud!
+        </p>
+        <div class="letter-sign">
+          Wishing you the happiest year ahead,<br>
+          Your Sibling ❤️
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Made with love for Minal (Mittu Di) • 23 November
+  </footer>
+
+  <script>
+    // Interactive Card Deck Data
+    const reasons = [
+      {
+        title: "The Anti-Stress Sibling",
+        desc: "While the rest of us get all serious, you’re the one cracking jokes and keeping the whole house light and happy."
+      },
+      {
+        title: "Golden Voice, Effortless Vibe",
+        desc: "You don’t need a stage or a mic—whenever you sing, everyone automatically stops to listen."
+      },
+      {
+        title: "Unmatched CA Final Dedication",
+        desc: "Handling one of the toughest exams out there without losing your cheerful, masti-filled nature is a superpower."
+      },
+      {
+        title: "Instant Mood Lifter",
+        desc: "Five minutes of talking to Mittu Di is enough to turn a boring day into a mini comedy show."
+      },
+      {
+        title: "The Best Older Sister",
+        desc: "Caring without being preachy, fun without trying—nobody does it better than you, Minal Di."
+      }
+    ];
+
+    let currentIndex = 0;
+
+    function updateCard() {
+      const card = document.getElementById("reasonCard");
+      card.style.opacity = "0";
+      card.style.transform = "translateY(8px)";
+
+      setTimeout(() => {
+        document.getElementById("cardCount").textContent = `0${currentIndex + 1} / 0${reasons.length}`;
+        document.getElementById("cardTitle").textContent = reasons[currentIndex].title;
+        document.getElementById("cardDesc").textContent = reasons[currentIndex].desc;
+        card.style.opacity = "1";
+        card.style.transform = "translateY(0)";
+      }, 200);
+    }
+
+    function nextCard() {
+      currentIndex = (currentIndex + 1) % reasons.length;
+      updateCard();
+    }
+
+    function prevCard() {
+      currentIndex = (currentIndex - 1 + reasons.length) % reasons.length;
+      updateCard();
+    }
+
+    // Warm Aesthetic Confetti Burst
+    const canvas = document.getElementById("confetti-canvas");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function launchCelebration() {
+      const colors = ["#D98A7C", "#C69C6D", "#8A9A86", "#E6B89C", "#2C221E"];
+      for (let i = 0; i < 90; i++) {
+        particles.push({
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2,
+          vx: (Math.random() - 0.5) * 14,
+          vy: (Math.random() - 0.7) * 14,
+          size: Math.random() * 7 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1
+        });
+      }
+      if (particles.length <= 90) animateConfetti();
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, index) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.25;
+        p.alpha -= 0.012;
+
+        ctx.globalAlpha = Math.max(p.alpha, 0);
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (p.alpha <= 0) particles.splice(index, 1);
+      });
+
+      if (particles.length > 0) {
+        requestAnimationFrame(animateConfetti);
+      }
+    }
+
+    // Trigger subtle celebration on first load
+    window.addEventListener("load", () => {
+      setTimeout(launchCelebration, 600);
+    });
+  </script>
+</body>
+</html>
